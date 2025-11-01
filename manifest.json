@@ -1,0 +1,38 @@
+{
+    "manifest_version": 3,
+    "name": "SiteBlocker",
+    "version": "1.0",
+    "description": "Free website blocker to help you stay focused. Block distracting websites!",
+    "permissions": [
+      "storage",
+      "declarativeNetRequest"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "options_page": "options.html",
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "SiteBlocker",
+      "default_icon": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+      }
+    },
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": [ "blocked.html" ],
+        "matches": [ "<all_urls>" ]
+      }
+    ]
+  }
+  

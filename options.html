@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiteBlocker Options</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.3), 0 0 40px rgba(220, 38, 38, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(220, 38, 38, 0.5), 0 0 60px rgba(220, 38, 38, 0.2);
+      }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(185, 28, 28, 0.03) 0%, transparent 50%);
+      color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .container {
+      max-width: 650px;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(220, 38, 38, 0.1) inset;
+      animation: slideIn 0.5s ease-out;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #dc2626, #b91c1c);
+      border-radius: 12px 12px 0 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #dc2626;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      font-family: 'Inter', sans-serif;
+    }
+
+    p {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #666666;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    form {
+      margin-top: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      border: 2px solid #e5e5e5;
+      border-radius: 8px;
+      appearance: none;
+      background: #ffffff;
+      color: #1a1a1a;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #dc2626;
+      background: #ffffff;
+      box-shadow: 
+        0 0 0 3px rgba(220, 38, 38, 0.1),
+        0 2px 8px rgba(220, 38, 38, 0.15);
+    }
+
+    input[type="text"]::placeholder {
+      color: #999999;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: #dc2626;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+      font-family: 'Inter', sans-serif;
+    }
+
+    button[type="submit"]:hover {
+      background: #b91c1c;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+      transform: translateY(-1px);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+    }
+
+    #status-message {
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+      min-height: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .status-success { 
+      color: #22c55e;
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+    
+    .status-error { 
+      color: #dc2626;
+      text-shadow: 0 0 10px rgba(220, 38, 38, 0.3);
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e5e5e5, transparent);
+      margin: 2.5rem 0;
+    }
+
+    .list-container h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+    }
+
+    .suggested-sites {
+      margin-bottom: 2.5rem;
+    }
+
+    .suggested-sites h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #666666;
+      margin-bottom: 1rem;
+    }
+
+    .suggested-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .suggested-button {
+      padding: 0.75rem 1rem;
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .suggested-button:hover {
+      background: #f0f0f0;
+      border-color: #dc2626;
+      color: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    .suggested-button:active {
+      transform: translateY(0);
+    }
+
+    .suggested-button.added {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #ffffff;
+      cursor: not-allowed;
+    }
+
+    .suggested-button.added:hover {
+      background: #b91c1c;
+      border-color: #b91c1c;
+      transform: none;
+    }
+
+    #blocked-list {
+      list-style-type: none;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    #blocked-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    #blocked-list::-webkit-scrollbar-track {
+      background: #f5f5f5;
+    }
+
+    #blocked-list::-webkit-scrollbar-thumb {
+      background: #dc2626;
+      border-radius: 4px;
+    }
+
+    #blocked-list::-webkit-scrollbar-thumb:hover {
+      background: #b91c1c;
+    }
+
+    #blocked-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-left: 3px solid #dc2626;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s ease;
+      animation: slideIn 0.4s ease-out;
+    }
+
+    #blocked-list li:hover {
+      background: #f0f0f0;
+      border-color: #dc2626;
+      border-left-color: #b91c1c;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+    }
+    
+    #blocked-list li span {
+      font-weight: 600;
+      color: #1a1a1a;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .remove-button {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #dc2626;
+      background: transparent;
+      border: 1px solid #dc2626;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .remove-button:hover {
+      color: #ffffff;
+      background: #dc2626;
+      border-color: #b91c1c;
+      transform: scale(1.02);
+    }
+
+    .remove-button:active {
+      transform: scale(0.98);
+    }
+
+    #empty-list-message {
+      text-align: center;
+      color: #999999;
+      padding: 2rem;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    .fade-in {
+      animation: slideIn 0.5s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <div>
+      <h2>SiteBlocker</h2>
+      <p>Add the domains you want to block (e.g., "twitter.com").</p>
+    </div>
+
+    <!-- Suggested Sites -->
+    <div class="suggested-sites">
+      <h3>Quick Add Common Sites</h3>
+      <div class="suggested-grid" id="suggested-grid">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Add Site Form -->
+    <form id="add-form">
+      <div class="form-group">
+        <label for="site-url" class="sr-only">Domain to block</label>
+        <input id="site-url" name="site" type="text" required placeholder="example.com">
+      </div>
+
+      <button type="submit">Add to Blocklist</button>
+      
+      <!-- Status Message -->
+      <div id="status-message"></div>
+    </form>
+
+    <hr>
+
+    <!-- Blocked Sites List -->
+    <div class="list-container">
+      <h3>Current Blocklist:</h3>
+      <ul id="blocked-list">
+        <li id="empty-list-message">No sites blocked yet.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
+
