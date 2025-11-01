@@ -1,5 +1,14 @@
 let blockedListEl, emptyMessage, statsEl, statusMessage;
 let currentBlockedSites = [];
+const haramSites = [
+  'pornhub.com', 'xvideos.com', 'xnxx.com', 'xhamster.com', 'redtube.com', 
+  'youporn.com', 'tube8.com', 'spankwire.com', 'keezmovies.com', 'xtube.com',
+  'beeg.com', 'tnaflix.com', '4tube.com', 'drtuber.com', 'sunporno.com',
+  'porn.com', 'tubev.sex', 'nuvid.com', 'porntube.com',
+  'perfectgirls.net', 'sex.com', 'thumbzilla.com', 'tubegalore.com', 'eporner.com',
+  'xhamsterlive.com', 'cam4.com', 'chaturbate.com', 'livejasmin.com', 'stripchat.com',
+  'bongacams.com', 'myfreecams.com', 'streamate.com', 'camsoda.com', 'flirt4free.com'
+];
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,21 +30,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Renders the list of blocked sites
+ * Renders the list of blocked sites (excluding haram sites)
  */
 function renderList() {
   // Clear current list, but keep the empty message template
   blockedListEl.innerHTML = '';
   
-  // Update stats
-  const count = currentBlockedSites.length;
+  // Filter out haram sites from display
+  const visibleSites = currentBlockedSites.filter(site => !haramSites.includes(site));
+  
+  // Update stats (only count visible sites)
+  const count = visibleSites.length;
   statsEl.textContent = `${count} site${count !== 1 ? 's' : ''} blocked`;
   
-  if (currentBlockedSites.length === 0) {
+  if (visibleSites.length === 0) {
     blockedListEl.appendChild(emptyMessage);
   } else {
     // Sort the list alphabetically
-    const sortedSites = [...currentBlockedSites].sort();
+    const sortedSites = [...visibleSites].sort();
     
     sortedSites.forEach(site => {
       const li = document.createElement('li');

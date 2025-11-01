@@ -332,6 +332,57 @@
     .fade-in {
       animation: slideIn 0.5s ease-out;
     }
+
+    .haram-sites-section {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .haram-warning {
+      margin-bottom: 1rem;
+    }
+
+    .haram-note {
+      font-size: 0.875rem;
+      color: #dc2626;
+      font-style: italic;
+      font-weight: 500;
+      margin: 0;
+      padding: 0.75rem 1rem;
+      background: rgba(220, 38, 38, 0.05);
+      border-left: 3px solid #dc2626;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .block-haram-button {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid #dc2626;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #dc2626;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+    }
+
+    .block-haram-button:hover {
+      background: #dc2626;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .block-haram-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+    }
   </style>
 </head>
 <body>
@@ -350,6 +401,16 @@
       <div class="suggested-grid" id="suggested-grid">
         <!-- Will be populated by JS -->
       </div>
+    </div>
+
+    <hr>
+
+    <!-- Block Haram Sites -->
+    <div class="haram-sites-section">
+      <div class="haram-warning">
+        <p class="haram-note">⚠️ You shouldn't even know what these sites are to begin with anyways</p>
+      </div>
+      <button type="button" id="block-haram-button" class="block-haram-button">Block Haram Sites</button>
     </div>
 
     <hr>

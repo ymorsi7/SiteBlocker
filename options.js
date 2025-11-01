@@ -1,21 +1,33 @@
 let form, siteInput, blockedListEl, emptyMessage, statusMessage, suggestedGrid;
 let currentBlockedSites = [];
-const suggestedSites = ['netflix.com', 'primevideo.com', 'youtube.com', 'facebook.com', 'instagram.com', 'x.com', 'tiktok.com', 'linkedin.com', 'hulu.com', 'hbomax.com'];
+const suggestedSites = ['netflix.com', 'primevideo.com', 'youtube.com', 'facebook.com', 'instagram.com', 'x.com', 'tiktok.com', 'hulu.com', 'hbomax.com'];
+const haramSites = [
+  'pornhub.com', 'xvideos.com', 'xnxx.com', 'xhamster.com', 'redtube.com', 
+  'youporn.com', 'tube8.com', 'spankwire.com', 'keezmovies.com', 'xtube.com',
+  'beeg.com', 'tnaflix.com', '4tube.com', 'drtuber.com', 'sunporno.com',
+  'porn.com', 'tubev.sex', 'nuvid.com', 'porntube.com',
+  'perfectgirls.net', 'sex.com', 'thumbzilla.com', 'tubegalore.com', 'eporner.com',
+  'xhamsterlive.com', 'cam4.com', 'chaturbate.com', 'livejasmin.com', 'stripchat.com',
+  'bongacams.com', 'myfreecams.com', 'streamate.com', 'camsoda.com', 'flirt4free.com'
+];
 
 // --- Helper Functions ---
 
 /**
- * Renders the list of blocked sites
+ * Renders the list of blocked sites (excluding haram sites)
  */
 function renderList() {
   // Clear current list, but keep the empty message template
   blockedListEl.innerHTML = '';
   
-  if (currentBlockedSites.length === 0) {
+  // Filter out haram sites from display
+  const visibleSites = currentBlockedSites.filter(site => !haramSites.includes(site));
+  
+  if (visibleSites.length === 0) {
     blockedListEl.appendChild(emptyMessage);
   } else {
     // Sort the list alphabetically
-    const sortedSites = [...currentBlockedSites].sort();
+    const sortedSites = [...visibleSites].sort();
     
     sortedSites.forEach(site => {
       const li = document.createElement('li');
@@ -186,6 +198,30 @@ async function handleRemoveSite(event) {
   }
 }
 
+/**
+ * Handles click on "Block Haram Sites" button
+ */
+async function handleBlockHaramSites() {
+  // Add all haram sites that aren't already blocked
+  const sitesToAdd = haramSites.filter(site => !currentBlockedSites.includes(site));
+  
+  if (sitesToAdd.length === 0) {
+    showStatusMessage('All haram sites are already blocked.');
+    return;
+  }
+
+  const newBlockedSites = [...currentBlockedSites, ...sitesToAdd];
+  
+  try {
+    await chrome.storage.sync.set({ blockedSites: newBlockedSites });
+    currentBlockedSites = newBlockedSites;
+    renderList();
+    showStatusMessage(`Added ${sitesToAdd.length} haram site${sitesToAdd.length !== 1 ? 's' : ''} to blocklist.`);
+  } catch (e) {
+    showStatusMessage('Error saving. Is storage full?', true);
+  }
+}
+
 // --- Initialization ---
 
 /**
@@ -213,6 +249,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Add event listener
   form.addEventListener('submit', handleAddSite);
+  
+  // Add event listener for haram sites button
+  const blockHaramButton = document.getElementById('block-haram-button');
+  if (blockHaramButton) {
+    blockHaramButton.addEventListener('click', handleBlockHaramSites);
+  }
   
   // Load the list
   loadInitialList();
