@@ -39,12 +39,17 @@ function createDynamicIcon() {
     createDynamicIcon();
   
     // Initialize the blocklist on install
-    chrome.storage.sync.get(['blockedSites'], (result) => {
+    chrome.storage.local.get(['blockedSites'], (result) => {
       if (!result.blockedSites) {
-        chrome.storage.sync.set({ blockedSites: [] });
+        chrome.storage.local.set({ blockedSites: [] });
       }
       updateBlockingRules(result.blockedSites || []);
     });
+
+    // Show welcome page on first install
+    if (details.reason === 'install') {
+      chrome.tabs.create({ url: chrome.runtime.getURL('welcome.html') });
+    }
   });
   
   // Create icon on browser startup as well
@@ -99,7 +104,7 @@ function createDynamicIcon() {
   
   // Listen for changes in storage
   chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'sync' && changes.blockedSites) {
+    if (namespace === 'local' && changes.blockedSites) {
       const newBlockedSites = changes.blockedSites.newValue || [];
       updateBlockingRules(newBlockedSites);
     }

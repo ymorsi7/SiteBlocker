@@ -88,7 +88,7 @@ async function handleSuggestedSiteClick(site) {
   const newBlockedSites = [...currentBlockedSites, site];
   
   try {
-    await chrome.storage.sync.set({ blockedSites: newBlockedSites });
+    await chrome.storage.local.set({ blockedSites: newBlockedSites });
     currentBlockedSites = newBlockedSites;
     renderList();
     showStatusMessage(`Added "${site}" to blocklist!`);
@@ -171,7 +171,7 @@ async function handleAddSite(event) {
   const newBlockedSites = [...currentBlockedSites, domain];
   
   try {
-    await chrome.storage.sync.set({ blockedSites: newBlockedSites });
+    await chrome.storage.local.set({ blockedSites: newBlockedSites });
     currentBlockedSites = newBlockedSites;
     renderList();
     siteInput.value = '';
@@ -189,7 +189,7 @@ async function handleRemoveSite(event) {
   const newBlockedSites = currentBlockedSites.filter(site => site !== siteToRemove);
 
   try {
-    await chrome.storage.sync.set({ blockedSites: newBlockedSites });
+    await chrome.storage.local.set({ blockedSites: newBlockedSites });
     currentBlockedSites = newBlockedSites;
     renderList();
     showStatusMessage(`Removed "${siteToRemove}" from blocklist.`);
@@ -213,7 +213,7 @@ async function handleBlockHaramSites() {
   const newBlockedSites = [...currentBlockedSites, ...sitesToAdd];
   
   try {
-    await chrome.storage.sync.set({ blockedSites: newBlockedSites });
+    await chrome.storage.local.set({ blockedSites: newBlockedSites });
     currentBlockedSites = newBlockedSites;
     renderList();
     showStatusMessage(`Added ${sitesToAdd.length} haram site${sitesToAdd.length !== 1 ? 's' : ''} to blocklist.`);
@@ -229,7 +229,7 @@ async function handleBlockHaramSites() {
  */
 async function loadInitialList() {
   try {
-    const result = await chrome.storage.sync.get(['blockedSites']);
+    const result = await chrome.storage.local.get(['blockedSites']);
     currentBlockedSites = result.blockedSites || [];
     renderList();
   } catch (e) {

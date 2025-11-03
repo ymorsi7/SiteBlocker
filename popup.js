@@ -96,7 +96,7 @@ async function handleRemoveSite(event) {
   const newBlockedSites = currentBlockedSites.filter(site => site !== siteToRemove);
 
   try {
-    await chrome.storage.sync.set({ blockedSites: newBlockedSites });
+    await chrome.storage.local.set({ blockedSites: newBlockedSites });
     currentBlockedSites = newBlockedSites;
     renderList();
     showStatusMessage(`Removed "${siteToRemove}"`);
@@ -110,13 +110,13 @@ async function handleRemoveSite(event) {
  */
 async function loadInitialList() {
   try {
-    const result = await chrome.storage.sync.get(['blockedSites']);
+    const result = await chrome.storage.local.get(['blockedSites']);
     currentBlockedSites = result.blockedSites || [];
     renderList();
     
     // Listen for changes in storage (when options page updates)
     chrome.storage.onChanged.addListener((changes, namespace) => {
-      if (namespace === 'sync' && changes.blockedSites) {
+      if (namespace === 'local' && changes.blockedSites) {
         currentBlockedSites = changes.blockedSites.newValue || [];
         renderList();
       }

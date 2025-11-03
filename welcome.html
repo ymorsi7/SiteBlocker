@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SiteBlocker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 2.5rem;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            background: #dc2626;
+            border-radius: 16px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .content {
+            margin: 2rem 0;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .section h2 {
+            font-size: 1.25rem;
+            color: #dc2626;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h2::before {
+            content: "🔒";
+            font-size: 1.5rem;
+        }
+
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 1.25rem;
+            padding-left: 2.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #dc2626;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .steps li strong {
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .steps li code {
+            background: #e5e5e5;
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: #dc2626;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .warning-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            color: #92400e;
+            font-size: 0.875rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button-primary {
+            background: #dc2626;
+            color: white;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .button-primary:hover {
+            background: #b91c1c;
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .button-secondary {
+            background: #f3f4f6;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .button-secondary:hover {
+            background: #e5e5e5;
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">B</div>
+            <h1>Welcome to SiteBlocker!</h1>
+            <p class="subtitle">Your free website blocker is now installed</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Enable in Incognito Mode</h2>
+                <p style="margin-bottom: 1rem; color: #666;">
+                    To block websites in incognito/private browsing mode, you need to enable the extension for incognito:
+                </p>
+                <ol class="steps">
+                    <li>
+                        <strong>Open Chrome Extensions</strong>
+                        <span>Click the puzzle piece icon in Chrome toolbar, then click "Manage extensions"</span>
+                        <br><small style="color: #666;">Or go to <code>chrome://extensions/</code></small>
+                    </li>
+                    <li>
+                        <strong>Find SiteBlocker</strong>
+                        <span>Look for the red "B" icon with SiteBlocker name</span>
+                    </li>
+                    <li>
+                        <strong>Click "Details"</strong>
+                        <span>This opens the extension's settings page</span>
+                    </li>
+                    <li>
+                        <strong>Enable "Allow in incognito"</strong>
+                        <span>Toggle this switch ON to enable blocking in private windows</span>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="warning">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Without enabling this option, SiteBlocker will only work in regular browsing mode, not in incognito windows.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Quick Start</h2>
+                <ul class="steps">
+                    <li>
+                        <strong>Click the extension icon</strong>
+                        <span>Open the popup to view your blocked sites</span>
+                    </li>
+                    <li>
+                        <strong>Click "Manage Sites"</strong>
+                        <span>Add websites you want to block</span>
+                    </li>
+                    <li>
+                        <strong>Start browsing</strong>
+                        <span>Blocked sites will redirect to a blocked page</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="button button-secondary" id="open-extensions">Open Extensions Page</button>
+            <button class="button button-primary" id="got-it">Got It!</button>
+        </div>
+    </div>
+
+    <script src="welcome.js"></script>
+</body>
+</html>
+
